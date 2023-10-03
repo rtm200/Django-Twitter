@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'fantalk/login.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+	<title>StarTrail</title>
+</head>
+<body>
+	<section>
+		<main>
+			<form method="POST"  class="login">
+				{% csrf_token %}
+				<h2>Register</h2>
+				{{ form.as_p }}
+				<button>Submit</button>
+			</form>
+		</main>
+	</section>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'fantalk/style.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+	<title>FanTalk</title>
+</head>
+<body>
+	<section>
+		<nav>
+			<div class="nav_top">
+				<h2>FanTalk</h2>
+				<ul>
+					<li><a href="{% url 'index' %}"><i class="uil uil-estate navicon"></i>Home</a></li>
+					{% if user.is_authenticated %}
+					<li><a href="{% url 'profile' request.user.id %}"><i class="uil uil-user navicon"></i>My Profile</a></li>
+					<li><a href="{% url 'post' %}"><i class="uil uil-star navicon"></i>Post Message</a></li>
+					{% else %}
+					<li><a href="{% url 'login' %}"><i class="uil uil-lock navicon"></i>Secret Menu</a></li>
+					<li><a href="{% url 'login' %}"><i class="uil uil-lock navicon"></i>Secret Menu</a></li>
+					{% endif %}
+				</ul>
+			</div>
+			<div class="nav_bottom">
+				<div class="recent">
+					<div class="recent_header">
+						<h3>All Profiles</h3>
+					</div>
+					<div class="recent_body">
+						{% if user.is_authenticated %}
+							{% if profiles %}
+								{% for profile in profiles %}
+									<a href="{% url 'profile' profile.user.id %}" class="recent_searchs">
+									{{profile.user.username}}
+									{% if profile.user.is_superuser %}
+									<i class="uil uil-check-circle" title="admin"></i>									
+									{% endif %}
+									</a>
+								{% endfor %}
+							{% endif %}
+						{% else %}
+						<h2>you must <a href="{% url 'login' %}" style="color: red; text-decoration: none;">Login</a> to see profiles</h2>
+						{% endif %}
+					</div>
+				</div>
+				<footer>
+					<p>© 2023 FanTalk AB</p>
+				</footer>
+			</div>
+		</nav>
+		<main>
+			<header>
+				<div class="header_login_signup">
+					{% if user.is_authenticated %}
+					<a href="{% url 'logout' %}">Logout</a>
+					{% else %}
+					<a href="{% url 'register' %}">Register</a>
+					<a href="{% url 'login' %}">Login</a>
+					{% endif %}
+				</div>
+				
+			</header>
+			{% if user.is_authenticated %}
+			<div class="main_section">
+				<div class="main_section_title">All Messages</div>
+				<div class="main_section_models">
+					{% for Moo in Moos %}
+					<div class="model">
+						{% if Moo.user.is_superuser %}
+						<a href="{% url 'profile' Moo.user.id %}">{{Moo.user}} <i class="uil uil-check-circle" title="admin"></i></a>
+						{% else %}
+						<a href="{% url 'profile' Moo.user.id %}">{{Moo.user}} </a>
+						{% endif %}
+						<h5>{{Moo.body}}</h5>
+						<p class="p_right">{{Moo.create_at}}</p>
+						{% if user in Moo.likes.all %}
+						<p class="p_left"><a href="{% url 'moo_like' Moo.id %}">Dislike</a> | Total: {{Moo.number_of_likes}}</p>
+						{% else %}
+						<p class="p_left"><a href="{% url 'moo_like' Moo.id %}">Like</a> | Total: {{Moo.number_of_likes}}</p>
+						{% endif %}
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			{% else %}
+			<div class="logincheck">
+				<h2>you must <a href="{% url 'login' %}" style="color: red;font-size: 2rem; text-decoration: none;">Login</a> to see Messages</h2>
+			</div>
+			{% endif %}
+		</main>
+	</section>
+</body>
+</html>

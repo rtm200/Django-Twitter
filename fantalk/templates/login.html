@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'fantalk/login.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+	<title>StarTrail</title>
+</head>
+<body>
+	<section>
+		<main>
+			{% if user.is_authenticated %}
+			<h1>You already Logged in</h1>
+			{% else %}
+			<form method="POST"  class="login" action="{% url 'login'%}">
+				{% csrf_token %}
+				<h2>Login</h2>
+				<input type="text" name="username" placeholder="Username">
+				<input type="password" name="password" placeholder="Password">
+				<button>Submit</button>
+			</form>
+			{% endif %}
+		</main>
+	</section>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'fantalk/post.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+	<title>FanTalk</title>
+</head>
+<body>
+	<section>
+		<nav>
+			<div class="nav_top">
+				<h2>FanTalk</h2>
+				<ul>
+					<li><a href="{% url 'index' %}"><i class="uil uil-estate navicon"></i>Home</a></li>
+					<li><a href="{% url 'profile' request.user.id %}"><i class="uil uil-user navicon"></i>My Profile</a></li>
+					<li><a href="{% url 'post' %}"><i class="uil uil-star navicon"></i>Post Message</a></li>
+				</ul>
+			</div>
+			<div class="nav_bottom">
+				<div class="donate">
+					<h2>SUPPORT THE CAUSE</h2>
+					<button>Donate to StarTrail</button>
+					<img src="{% static '/images/qrcode.png' %}">
+				</div>
+				<div class="signout">
+					<a href="{% url 'logout' %}">Sign Out</a>
+				</div>
+				<footer>
+					<p>© 2023 FanTalk AB</p>
+				</footer>
+			</div>
+		</nav>
+		<main>
+			<div class="main_section">
+				{% if form %}
+				<form method="POST">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button class="postbtn">Post!</button>
+				</form>
+				{% endif %}
+			</div>
+		</main>
+	</section>
+</body>
+</html>
